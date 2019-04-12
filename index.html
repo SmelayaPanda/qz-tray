@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title>Title</title>
+
+    <script type="text/javascript" src="js/rsvp-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/sha-256.min.js"></script>
+    <script type="text/javascript" src="js/qz-tray.js"></script>
+
+    <script type="text/javascript">
+        //barcode data
+        const code = '12345'
+
+        //convenience method
+        const chr = function(n) { return String.fromCharCode(n); };
+
+        const barcode = '\x1D' + 'h' + chr(80) +   //barcode height
+            '\x1D' + 'f' + chr(0) +              //font for printed number
+            '\x1D' + 'k' + chr(69) + chr(code.length) + code + chr(0); //code39
+
+        qz.websocket.connect().then(function() {
+            var config = qz.configs.create("Epson TM88V");
+            return qz.print(config, ['\n\n\n\n\n' + barcode + '\n\n\n\n\n']);
+        }).catch(function(err) { alert(err); });
+
+        function printBarcode() {
+            console.log('print')
+        }
+
+    </script>
+</head>
+<body>
+
+<!--onclick="printBarcode()"-->
+<button >
+    Print
+</button>
+
+</body>
+</html>
